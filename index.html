@@ -90,24 +90,24 @@ a{color:inherit}
 .nav-res p{margin:0 0 4px;font-family:var(--f-display);letter-spacing:.2em;color:var(--muted);font-size:13px}
 .nav-res .btn{padding:0 12px;letter-spacing:.08em;font-size:13px;text-align:center}
 @media (prefers-reduced-motion:reduce){.nav-scrim,.nav-panel{transition:none}}
-/* PC: パネルを細く・文字を小さく（GPT-6壁打ち v12） */
+/* PC: i'm同様の全画面オーバーレイ＋3列グリッド（実測 33px・行ピッチ76px）。スマホは右ドロワーのまま */
 @media (min-width:760px){
-  .nav-panel{width:clamp(440px,36vw,640px);padding-left:52px;padding-right:max(48px, env(safe-area-inset-right,0px))}
-  .nav ul{margin-top:auto;gap:8px}
-  .nav li a{font-size:clamp(21px,1.25vw,26px);letter-spacing:.12em;line-height:1.25}
-  .nav-res{width:min(100%,360px);grid-template-columns:1fr 1fr;gap:8px;padding-top:0;margin-top:44px}
-  .nav-res p{grid-column:1/-1}
+  .nav-scrim{display:none}
+  .nav-panel{width:100%;transform:none;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s;
+    display:grid;grid-template-columns:auto auto 1fr;grid-template-rows:auto auto 1fr;align-content:start;column-gap:96px;
+    padding:0 max(48px, calc((100vw - 1280px) / 2)) 48px}
+  .nav.open .nav-panel{opacity:1;visibility:visible;transition:opacity .5s ease}
+  .nav-top{position:absolute;top:calc(env(safe-area-inset-top,0px) + 22px);right:max(40px, env(safe-area-inset-right,0px))}
+  .nav ul{grid-column:1/-1;margin:clamp(110px,27vh,250px) 0 0;grid-template-columns:repeat(3,minmax(0,280px));grid-template-rows:repeat(4,auto);grid-auto-flow:column;column-gap:56px;row-gap:clamp(20px,4vh,35px)}
+  .nav li a{font-size:clamp(26px,2.2vw,34px);letter-spacing:.12em;line-height:1.25}
+  .nav .nav-follow{grid-column:1;grid-row:3;align-self:start;margin-top:clamp(40px,7vh,64px);padding-top:0;display:grid;gap:0}
+  .nav .nav-follow p{margin:0 0 8px;font-size:12px}
+  .nav .nav-follow a{min-height:34px;font-size:14px;gap:12px}
+  .nav-res{grid-column:2;grid-row:3;align-self:start;margin-top:clamp(40px,7vh,64px);padding-top:0;width:360px;grid-template-columns:1fr 1fr;gap:8px}
+  .nav-res p{grid-column:1/-1;margin:0 0 8px;font-size:12px}
   .nav-res .btn{min-height:44px;font-size:12px;padding:0 8px}
-  .nav .nav-follow{padding-top:22px;margin-bottom:auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px 20px}
-  .nav .nav-follow p{width:100%;margin:0;font-size:12px}
-  .nav .nav-follow a{min-height:36px;font-size:13px;gap:8px}
-  .nav .nav-follow a small{min-width:0}
 }
-@media (min-width:760px) and (max-height:760px){
-  .nav ul{gap:4px}
-  .nav-res{margin-top:24px}
-  .nav .nav-follow{padding-top:12px}
-}
+@media (prefers-reduced-motion:reduce) and (min-width:760px){.nav-panel{transition:none}}
 
 /* hero: i'm と同じく、フェード切替＋表示中の写真が10秒かけて1.2倍にズーム、右端に縦のプログレスバー */
 .hero{position:relative;height:clamp(560px,92vh,940px);overflow:hidden;background:#9a9a98;color:var(--on-photo)}
@@ -682,7 +682,7 @@ a{color:inherit}
 </footer>
 
 <nav class="rbar" id="rbar" aria-label="ご予約"><a href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener"><span><small>OSAKA</small>大阪店を予約</span></a><a class="io" href="https://sam013.salonanswer.com/sas/reserve/lieuplieio/" target="_blank" rel="noopener"><span><small>OKINAWA</small>沖縄店 io を予約</span></a></nav>
-<p class="draft">デザイン案 v12｜写真・価格は仮</p>
+<p class="draft">デザイン案 v13｜写真・価格は仮</p>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
