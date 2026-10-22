@@ -30,6 +30,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html,body{margin:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:16px;line-height:1.95;letter-spacing:var(--let);font-weight:400;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:inherit}
@@ -116,7 +117,7 @@ a{color:inherit}
 .hero-scroll::after{content:"";position:absolute;inset:0;background:var(--on-photo);animation:drip 2.4s ease-in-out infinite}
 @keyframes drip{0%{transform:translateY(-100%)}60%,100%{transform:translateY(100%)}}
 /* video hero: スマホは縦動画を全面に。PCは右に縦動画、左にコピー（動画の背景色に合わせて地続きに見せる） */
-.hero.video{background:linear-gradient(180deg,#dbe5e4 0%,#d3d8d3 60%,#c9c7c0 100%);color:var(--fg);height:min(177.78vw,100svh)}
+.hero.video{background:linear-gradient(180deg,#dbe5e4 0%,#d3d8d3 60%,#c9c7c0 100%);color:var(--fg);height:100vh;height:100svh}
 .hero.video::after{display:none}
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 .hero.video .hero-copy{display:none}
@@ -307,7 +308,8 @@ a{color:inherit}
   .rbar a small{display:block;font-family:var(--f-display);font-size:10px;letter-spacing:.2em;opacity:.75}
   .rbar a.io{background:var(--io)}
   body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}
-  body .draft{bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  body .draft{bottom:calc(68px + env(safe-area-inset-bottom,0px));opacity:0;pointer-events:none;transition:opacity .4s}
+  body.past .draft{opacity:1;pointer-events:auto}
   .toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
 }
 
@@ -638,7 +640,7 @@ a{color:inherit}
 </footer>
 
 <nav class="rbar" id="rbar" aria-label="ご予約"><a href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener"><span><small>OSAKA</small>大阪店を予約</span></a><a class="io" href="https://sam013.salonanswer.com/sas/reserve/lieuplieio/" target="_blank" rel="noopener"><span><small>OKINAWA</small>沖縄店 io を予約</span></a></nav>
-<p class="draft">デザイン案 v9｜写真・価格は仮</p>
+<p class="draft">デザイン案 v10｜写真・価格は仮</p>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -651,7 +653,7 @@ const onHd=()=>hd.classList.toggle('scrolled', scrollY > heroEl.offsetHeight - h
 addEventListener('scroll',onHd,{passive:true}); addEventListener('resize',onHd); onHd();
 /* reserve bar + flow slider */
 const rbar=document.getElementById('rbar');
-const onBar=()=>rbar.classList.toggle('on', scrollY > heroEl.offsetHeight*.6 && !(innerHeight+scrollY > document.documentElement.scrollHeight-40));
+const onBar=()=>document.body.classList.toggle('past', scrollY > heroEl.offsetHeight*.6) | rbar.classList.toggle('on', scrollY > heroEl.offsetHeight*.6 && !(innerHeight+scrollY > document.documentElement.scrollHeight-40));
 addEventListener('scroll',onBar,{passive:true}); onBar();
 const flowEl=document.querySelector('.flow'), flowNow=document.getElementById('flowNow'), flowBar=document.getElementById('flowBar');
 const flowIdx=()=>{const st=flowEl.querySelector('.step'); if(!st) return 0; return Math.round(flowEl.scrollLeft/(st.getBoundingClientRect().width+16))};
