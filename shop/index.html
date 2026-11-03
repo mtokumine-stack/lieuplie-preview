@@ -5,75 +5,33 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Lieu plie Members Shop｜確認用</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400&family=Noto+Sans+JP:wght@300;400;500&display=swap">
 <style>
-:root{--fg:#323232;--muted:#8a8580;--rule:#e6e1da;--bg:#f7f4ef}
-*{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:"Noto Sans JP",system-ui,sans-serif;font-weight:400;letter-spacing:.04em;-webkit-font-smoothing:antialiased}
-.card{width:min(100% - 40px,380px);background:#fff;padding:44px 32px 40px;text-align:center;border:1px solid var(--rule)}
-.en{font-family:Arsenal,serif;font-size:12px;letter-spacing:.32em;color:var(--muted);margin:0 0 10px}
-h1{font-size:17px;font-weight:500;letter-spacing:.16em;margin:0 0 6px}
-.sub{font-size:12px;color:var(--muted);margin:0 0 30px;line-height:1.8}
-label{display:block;text-align:left;font-size:12px;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
-input{width:100%;height:50px;border:1px solid #cfc9c1;background:#fff;padding:0 14px;font:inherit;font-size:16px;letter-spacing:.08em;outline:none;transition:border-color .2s}
-input:focus{border-color:var(--fg)}
-input[aria-invalid="true"]{border-color:#b4453a}
-button{width:100%;height:52px;margin-top:16px;border:1px solid var(--fg);background:var(--fg);color:#fff;font:inherit;font-size:14px;letter-spacing:.14em;cursor:pointer;transition:opacity .25s}
-button:disabled{opacity:.5;cursor:default}
-.err{min-height:20px;margin:10px 0 0;font-size:12px;color:#b4453a;text-align:left}
-.note{margin:26px 0 0;font-size:11px;color:var(--muted);line-height:1.8}
-.bar{height:2px;background:var(--rule);margin-top:18px;overflow:hidden;visibility:hidden}
-.bar i{display:block;height:100%;width:40%;background:var(--fg);animation:slide 1s infinite ease-in-out}
-@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+body{display:grid;place-items:center;background:#f7f4ef;color:#323232;font-family:"Noto Sans JP",system-ui,sans-serif;letter-spacing:.04em}
+.ld{display:grid;gap:14px;justify-items:center;font-size:12px;color:#8a8580;letter-spacing:.2em}
+.bar{width:160px;height:2px;background:#e6e1da;overflow:hidden}
+.bar i{display:block;height:100%;width:40%;background:#323232;animation:s 1s infinite ease-in-out}
+@keyframes s{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+.err{display:none;font-size:13px;letter-spacing:.04em;color:#323232;text-align:center;line-height:1.9}
+.err button{margin-top:12px;height:44px;padding:0 24px;border:1px solid #323232;background:#323232;color:#fff;font:inherit;cursor:pointer}
 </style>
 </head>
 <body>
-<form class="card" id="f" autocomplete="off">
-  <p class="en">MEMBERS SHOP</p>
-  <h1>Lieu plie 会員ショップ</h1>
-  <p class="sub">デザイン確認用ページです。<br>お送りしたパスコードを入力してください。</p>
-  <label for="pc">パスコード</label>
-  <input id="pc" type="password" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" required>
-  <button id="go" type="submit">表示する</button>
-  <p class="err" id="err"></p>
-  <div class="bar" id="bar"><i></i></div>
-  <p class="note">商品・価格・特典はすべて仮の内容です。<br>このページは検索エンジンに登録されません。</p>
-</form>
+<div class="ld" id="ld">LOADING<div class="bar"><i></i></div></div>
+<div class="err" id="err">読み込みに失敗しました。<br>通信環境をご確認ください。<br><button type="button" onclick="location.reload()">もう一度読み込む</button></div>
 <script>
+// 確認用ショップの読み込み：常に最新版（manifest.json）を取得して表示する。パスコードは不要
 (async()=>{
-  const f=document.getElementById('f'),pc=document.getElementById('pc'),err=document.getElementById('err'),go=document.getElementById('go'),bar=document.getElementById('bar');
-  const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-  let bin=null;
-  const load=async()=>{if(bin)return bin;
-    let file='app.bin?v=12';try{const mf=await fetch('manifest.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json());if(mf.bin)file=mf.bin}catch(_){}
-    const r=await fetch(file,{cache:'force-cache'});if(!r.ok)throw new Error('load');bin=new Uint8Array(await r.arrayBuffer());return bin};
-  const dec=async pass=>{
-    const d=await load();const salt=d.slice(0,16),iv=d.slice(16,28),ct=d.slice(28);
-    const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
-    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
-    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
-    return new TextDecoder().decode(pt);
-  };
-  const show=(html,fresh)=>{
-    // パスコードを入れた直後は未ログイン（価格は非表示）で始める。再読み込み時はログイン状態を保つ
-    // 古い版のログイン状態は消す。パスコードを入れた直後は必ず未ログインから
-    try{Object.keys(sessionStorage).forEach(k=>{if(k==='lp_shop_login'||k==='lp_member_v2'||(fresh&&k.startsWith('lp_member_')))sessionStorage.removeItem(k)})}catch(_){}
+  try{
+    // 古い版のログイン状態・パスコードの保存は消す（ログイン状態は版ごとのキー lp_member_<版> で管理）
+    try{Object.keys(sessionStorage).forEach(k=>{if(k==='lp_shop_login'||k==='lp_member_v2'||k==='lp_gate')sessionStorage.removeItem(k)})}catch(_){}
+    const mf=await fetch('manifest.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()});
+    const r=await fetch(mf.html,{cache:'force-cache'});if(!r.ok)throw 0;
+    const html=await r.text();
     const h=location.hash&&location.hash!=='#'?location.hash:'#top';
     document.open();document.write(html);document.close();
     if(location.hash!==h)location.hash=h;
-  };
-  const run=async(pass,fresh)=>{
-    err.textContent='';go.disabled=true;bar.style.visibility='visible';
-    try{const html=await dec(pass);try{sessionStorage.setItem('lp_gate',pass)}catch(_){}show(html,fresh)}
-    catch(e){bar.style.visibility='hidden';go.disabled=false;pc.setAttribute('aria-invalid','true');err.textContent=e.message==='load'?'読み込みに失敗しました。通信環境をご確認ください。':'パスコードが違います。';pc.focus();pc.select()}
-  };
-  f.addEventListener('submit',e=>{e.preventDefault();run(pc.value.trim(),true)});
-  pc.addEventListener('input',()=>{pc.removeAttribute('aria-invalid');err.textContent=''});
-  let saved=null;try{saved=sessionStorage.getItem('lp_gate')}catch(_){}
-  if(saved){pc.value=saved;run(saved)}else{load().catch(()=>{});pc.focus()}
+  }catch(_){document.getElementById('ld').style.display='none';document.getElementById('err').style.display='block'}
 })();
 </script>
 </body>
