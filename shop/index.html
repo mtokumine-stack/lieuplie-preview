@@ -47,7 +47,7 @@ button:disabled{opacity:.5;cursor:default}
   const f=document.getElementById('f'),pc=document.getElementById('pc'),err=document.getElementById('err'),go=document.getElementById('go'),bar=document.getElementById('bar');
   const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
   let bin=null;
-  const load=async()=>{if(bin)return bin;const r=await fetch('app.bin?v=9',{cache:'force-cache'});if(!r.ok)throw new Error('load');bin=new Uint8Array(await r.arrayBuffer());return bin};
+  const load=async()=>{if(bin)return bin;const r=await fetch('app.bin?v=10',{cache:'force-cache'});if(!r.ok)throw new Error('load');bin=new Uint8Array(await r.arrayBuffer());return bin};
   const dec=async pass=>{
     const d=await load();const salt=d.slice(0,16),iv=d.slice(16,28),ct=d.slice(28);
     const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
