@@ -47,7 +47,7 @@ button:disabled{opacity:.5;cursor:default}
   const f=document.getElementById('f'),pc=document.getElementById('pc'),err=document.getElementById('err'),go=document.getElementById('go'),bar=document.getElementById('bar');
   const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
   let bin=null;
-  const load=async()=>{if(bin)return bin;const r=await fetch('app.bin?v=11',{cache:'force-cache'});if(!r.ok)throw new Error('load');bin=new Uint8Array(await r.arrayBuffer());return bin};
+  const load=async()=>{if(bin)return bin;const r=await fetch('app.bin?v=12',{cache:'force-cache'});if(!r.ok)throw new Error('load');bin=new Uint8Array(await r.arrayBuffer());return bin};
   const dec=async pass=>{
     const d=await load();const salt=d.slice(0,16),iv=d.slice(16,28),ct=d.slice(28);
     const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
@@ -57,7 +57,7 @@ button:disabled{opacity:.5;cursor:default}
   };
   const show=(html,fresh)=>{
     // パスコードを入れた直後は未ログイン（価格は非表示）で始める。再読み込み時はログイン状態を保つ
-    if(fresh){try{sessionStorage.removeItem('lp_shop_login')}catch(_){}}
+    try{sessionStorage.removeItem('lp_shop_login')}catch(_){}if(fresh){try{sessionStorage.removeItem('lp_member_v2')}catch(_){}}
     const h=location.hash&&location.hash!=='#'?location.hash:'#top';
     document.open();document.write(html);document.close();
     if(location.hash!==h)location.hash=h;
