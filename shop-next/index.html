@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Lieu plie Members Shop｜確認用</title>
+<style>
+html,body{margin:0;height:100%}
+body{display:grid;place-items:center;background:#f7f4ef;color:#323232;font-family:"Noto Sans JP",system-ui,sans-serif;letter-spacing:.04em}
+.ld{display:grid;gap:14px;justify-items:center;font-size:12px;color:#8a8580;letter-spacing:.2em}
+.bar{width:160px;height:2px;background:#e6e1da;overflow:hidden}
+.bar i{display:block;height:100%;width:40%;background:#323232;animation:s 1s infinite ease-in-out}
+@keyframes s{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+.err{display:none;font-size:13px;letter-spacing:.04em;color:#323232;text-align:center;line-height:1.9}
+.err button{margin-top:12px;height:44px;padding:0 24px;border:1px solid #323232;background:#323232;color:#fff;font:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="ld" id="ld">LOADING<div class="bar"><i></i></div></div>
+<div class="err" id="err">読み込みに失敗しました。<br>通信環境をご確認ください。<br><button type="button" onclick="location.reload()">もう一度読み込む</button></div>
+<script>
+// 確認用ショップの読み込み：常に最新版（manifest.json）を取得して表示する。パスコードは不要
+(async()=>{
+  try{
+    // 古い版のログイン状態・パスコードの保存は消す（ログイン状態は版ごとのキー lp_member_<版> で管理）
+    try{Object.keys(sessionStorage).forEach(k=>{if(k==='lp_shop_login'||k==='lp_member_v2'||k==='lp_gate')sessionStorage.removeItem(k)})}catch(_){}
+    const mf=await fetch('manifest.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json()});
+    const r=await fetch(mf.html,{cache:'force-cache'});if(!r.ok)throw 0;
+    const html=await r.text();
+    const h=location.hash&&location.hash!=='#'?location.hash:'#top';
+    document.open();document.write(html);document.close();
+    if(location.hash!==h)location.hash=h;
+  }catch(_){document.getElementById('ld').style.display='none';document.getElementById('err').style.display='block'}
+})();
+</script>
+</body>
+</html>
