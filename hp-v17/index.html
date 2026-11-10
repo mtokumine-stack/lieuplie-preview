@@ -501,12 +501,12 @@ br.sp{display:none}
 @media (min-width:760px){.nav li a{font-size:clamp(22px,1.9vw,29px)}.nav li a::before{left:-24px;border-left-width:9px;border-top-width:5.5px;border-bottom-width:5.5px}}
 @media (prefers-reduced-motion:reduce){.nav li a::before{transition:none}}
 body:has(.nav.open) .rbar{visibility:hidden}/* 透ける面の下に予約バーが重なって見えないように */
-@media (max-width:759px){/* スマホ：メニューを全画面にして中央揃え（試し・2026/11/10） */
-.nav-panel{width:100%;padding-left:max(24px, env(safe-area-inset-left,0px));padding-right:max(24px, env(safe-area-inset-right,0px));text-align:center}
+@media (max-width:759px){/* スマホ：右半分のメニューの中で中央揃え（2026/11/10） */
+.nav-panel{padding-left:20px;padding-right:max(20px, env(safe-area-inset-right,0px));text-align:center}
 .nav ul{justify-items:center}
-.nav-res,.nav-shop,.nav .nav-follow{justify-items:center;width:100%;max-width:340px;margin-left:auto;margin-right:auto}
+.nav-res,.nav-shop,.nav .nav-follow{justify-items:center;width:100%}
 .nav-res .btn,.nav-shop .btn{width:100%}
-.nav-res .sub,.nav-shop .sub{justify-self:center}
+.nav-res .sub,.nav-shop .sub{justify-self:center;word-break:keep-all}
 .nav .nav-follow a{justify-content:center}
 .nav .nav-follow a small{min-width:0}
 }
@@ -543,7 +543,7 @@ body:has(.nav.open) .rbar{visibility:hidden}/* 透ける面の下に予約バー
       <p>RESERVE<small>大阪店・四ツ橋</small></p>
       <a class="btn" href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener">WEB予約</a>
       <a class="btn line" href="tel:0643904666">電話で予約</a>
-      <a class="sub" href="reserve.html">ご予約について（はじめての方へ）</a>
+      <a class="sub" href="reserve.html">ご予約について<wbr>（はじめての方へ）</a>
     </div>
     <div class="nav-shop"><p>ONLINE SHOP<small>会員様限定</small></p><a class="btn" href="../shop/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 8h14l-1 13H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>会員ショップへ</a><a class="sub" href="#shop">はじめての方はこちら</a></div>
     <div class="follow nav-follow">
