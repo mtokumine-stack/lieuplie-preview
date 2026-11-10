@@ -489,6 +489,7 @@ br.sp{display:none}
 .shop-closed-img{background:var(--bg-alt)}
 .hd.scrolled{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 #ececec}
 @media (max-width:759px){.rbar{grid-template-columns:4fr 6fr}.rbar a.tel{background:var(--bg);color:var(--fg)}.rbar a small{font-family:var(--f-sans);letter-spacing:.08em}}
+@media (max-width:759px){.flow{overscroll-behavior-x:contain}.js .flow .step.rv.pre{opacity:1}.flow .step.rv.in{animation:none}}
 </style></head><body>
 
 <header class="hd dark">
@@ -791,8 +792,8 @@ const rbar=document.getElementById('rbar');
 const onBar=()=>document.body.classList.toggle('past', scrollY > heroEl.offsetHeight*.6) | rbar.classList.toggle('on', scrollY > heroEl.offsetHeight*.6 && !(innerHeight+scrollY > document.documentElement.scrollHeight-40));
 addEventListener('scroll',onBar,{passive:true}); onBar();
 const flowEl=document.querySelector('.flow'), flowNow=document.getElementById('flowNow'), flowBar=document.getElementById('flowBar');
-const flowIdx=()=>{const st=flowEl.querySelector('.step'); if(!st) return 0; return Math.round(flowEl.scrollLeft/(st.getBoundingClientRect().width+16))};
-flowEl.addEventListener('scroll',()=>{const i=Math.min(4,flowIdx()); flowNow.textContent=i+1; flowBar.style.transform=`translateX(${i*100}%)`},{passive:true});
+const flowSteps=[...flowEl.querySelectorAll('.step')];const flowIdx=()=>{const n=flowSteps.length;if(!n) return 0;const max=flowEl.scrollWidth-flowEl.clientWidth;const x=Math.min(Math.max(flowEl.scrollLeft,0),Math.max(max,0));if(max>0&&x>=max-2) return n-1;const w=flowSteps[0].getBoundingClientRect().width+16;return Math.min(n-1,Math.max(0,Math.round(x/w)))};
+let flowLast=-1;const flowSync=()=>{const i=flowIdx();if(i===flowLast) return;flowLast=i;flowNow.textContent=i+1;flowBar.style.transform=`translateX(${i*100}%)`};flowEl.addEventListener('scroll',flowSync,{passive:true});addEventListener('resize',flowSync);flowSync();
 document.querySelectorAll('.flow-ctrl button').forEach(b=>b.addEventListener('click',()=>{const st=flowEl.querySelector('.step'); flowEl.scrollBy({left:(st.getBoundingClientRect().width+16)*Number(b.dataset.d),behavior:reduce?'auto':'smooth'})}));
 /* nav */
 const nav=document.getElementById('nav'), openB=document.getElementById('menuOpen');
