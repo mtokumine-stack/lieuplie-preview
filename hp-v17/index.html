@@ -491,25 +491,14 @@ br.sp{display:none}
 @media (max-width:759px){.rbar{grid-template-columns:4fr 6fr}.rbar a.tel{background:var(--bg);color:var(--fg)}.rbar a small{font-family:var(--f-sans);letter-spacing:.08em}}
 @media (max-width:759px){.flow{overscroll-behavior-x:contain}.js .flow .step.rv.pre{opacity:1}.flow .step.rv.in{animation:none}}
 </style><style>
-/* メニュー：少し透ける面（ourhabitas.com を参考）＋カーソル・選択中の項目に矢印（2026/11/10） */
-.nav-panel{background:rgba(116,106,96,.9);color:#fff}
-.nav-scrim{background:rgba(30,28,28,.18)}
-.nav-close{color:#fff}
-.nav li a{position:relative;color:rgba(255,255,255,.8);transition:color .3s}
+/* メニュー：白い面を少し透けさせる＋カーソル・いま見ている項目に矢印、文字を少し小さく（2026/11/10） */
+.nav-panel{background:rgba(255,255,255,.9)}
+.nav li a{position:relative;font-size:clamp(17px,2.1vw,30px)}
 .nav li a:hover{opacity:1}
-.nav li a::before{content:"";position:absolute;left:-20px;top:50%;border-left:8px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:0;transform:translate(-6px,-50%);transition:opacity .25s,transform .25s;pointer-events:none}
-.nav li a:hover,.nav li a:focus-visible,.nav li a[aria-current]{color:#fff}
+.nav li a::before{content:"";position:absolute;left:-18px;top:50%;border-left:7px solid currentColor;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;opacity:0;transform:translate(-6px,-50%);transition:opacity .25s,transform .25s;pointer-events:none}
 .nav li a:hover::before,.nav li a:focus-visible::before,.nav li a[aria-current]::before{opacity:1;transform:translate(0,-50%)}
-.nav li a:focus-visible{outline:none}
 @media (hover:none){.nav li a:active::before{opacity:1;transform:translate(0,-50%)}}
-@media (min-width:760px){.nav li a::before{left:-26px;border-left-width:10px;border-top-width:6px;border-bottom-width:6px}}
-.nav-res p,.nav-shop p,.nav .nav-follow p{color:rgba(255,255,255,.7)}
-.nav .btn{background:#fff;color:#323232;border-color:#fff}
-.nav .btn:hover{background:transparent;color:#fff}
-.nav .btn.line,.nav-shop .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.85)}
-.nav .btn.line:hover,.nav-shop .btn:hover{background:#fff;color:#323232}
-.nav-res .sub,.nav-shop .sub{color:rgba(255,255,255,.82)}
-.nav .nav-follow a{color:#fff}
+@media (min-width:760px){.nav li a{font-size:clamp(22px,1.9vw,29px)}.nav li a::before{left:-24px;border-left-width:9px;border-top-width:5.5px;border-bottom-width:5.5px}}
 @media (prefers-reduced-motion:reduce){.nav li a::before{transition:none}}
 body:has(.nav.open) .rbar{visibility:hidden}/* 透ける面の下に予約バーが重なって見えないように */
 </style>
