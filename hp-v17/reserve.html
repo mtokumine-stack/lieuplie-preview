@@ -428,41 +428,62 @@ body{margin:0}
 .nav-res .sub{font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;justify-self:start;padding:2px 0}
 @media (max-width:759px){.rbar{grid-template-columns:4fr 6fr}.rbar a.tel{background:var(--bg);color:var(--fg)}.rbar a small{font-family:var(--f-sans);letter-spacing:.08em}}
 
-/* reserve page */
-.rsv{padding-bottom:clamp(80px,9vw,140px)}
+/* v17.1: ヘッダーは不透明の白（下の文字が透けてシミに見えるため） */
+.hd.scrolled{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 #ececec}
+/* 確認用の札は固定せず、ページ最上部の小さな帯に */
+.mhead .draft-band{margin:0 0 16px;max-width:none;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+
+/* reserve page v17.1 — 余白は 8・16・24・32・48・80/120 のみ。グループ内 < グループ間 < セクション間 */
+.rsv-head{padding-block:calc(env(safe-area-inset-top,0px) + 104px) 32px}
+.rsv-head .crumb{margin:0 0 20px;font-size:12px}
+.rsv-head h1{font-size:clamp(36px,4.2vw,56px);letter-spacing:.12em;line-height:1.2}
+.rsv-head .sub{margin-top:8px;font-size:13px}
+.rsv{padding-bottom:64px}
 .rsv-ways{display:grid;gap:16px}
-@media (min-width:760px){.rsv-ways{grid-template-columns:1fr 1fr;gap:24px}}
-.rsv-card{background:var(--bg-alt);padding:clamp(28px,3.6vw,44px);display:grid;gap:14px;align-content:start}
-.rsv-en{margin:0;font-family:var(--f-display);font-size:12px;letter-spacing:.22em;color:var(--muted)}
-.rsv-card h2{margin:0;font-family:var(--f-serif);font-weight:500;font-size:clamp(20px,2vw,24px);letter-spacing:.12em;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.rsv-card h2 small{font-family:var(--f-sans);font-weight:400;font-size:12px;letter-spacing:.06em;color:var(--muted)}
-.rsv-card p{margin:0;font-size:14px}
-.rsv-card .btn{width:100%;margin-top:6px}
-.rsv-note{font-size:12px!important;color:var(--muted)}
-.rsv-tel{font-family:var(--f-display);font-size:clamp(28px,3vw,34px)!important;letter-spacing:.08em;line-height:1.3}
-.rsv-tel a{text-decoration:none}
-.rsv-sec{margin-top:clamp(64px,8vw,104px)}
-.rsv-h{margin:0 0 28px;font-family:var(--f-display);font-weight:400;font-size:clamp(22px,2.4vw,28px);letter-spacing:.16em;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-.rsv-h small{font-family:var(--f-serif);font-size:13px;letter-spacing:.14em;color:var(--muted)}
-.rsv-steps{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--rule)}
-@media (min-width:860px){.rsv-steps{grid-template-columns:repeat(3,1fr);border-top:0;gap:24px}}
-.rsv-steps li{display:grid;align-content:start;grid-template-columns:auto 1fr;gap:4px 18px;padding:20px 0;border-bottom:1px solid var(--rule)}
-@media (min-width:860px){.rsv-steps li{grid-template-columns:1fr;border-bottom:0;border-top:1px solid var(--fg);padding-top:20px}}
-.rsv-steps .n{grid-row:span 2;font-family:var(--f-display);font-size:24px;line-height:1.2;color:var(--muted)}
-@media (min-width:860px){.rsv-steps .n{grid-row:auto}}
-.rsv-steps b{font-weight:500;font-size:15px;letter-spacing:.08em}
-.rsv-steps .t{font-size:14px;line-height:1.85}
-.rsv-dl{display:grid;grid-template-columns:8em 1fr;margin:0;border-top:1px solid var(--rule)}
-.rsv-dl dt,.rsv-dl dd{margin:0;padding:16px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.rsv-card{background:var(--bg-alt);padding:24px;display:flex;flex-direction:column}
+.rsv-card h2{margin:0;font-family:var(--f-serif);font-weight:500;font-size:20px;letter-spacing:.08em;line-height:1.5;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.rsv-card h2 small{font-family:var(--f-sans);font-weight:400;font-size:12px;letter-spacing:.04em;color:#777}
+.rsv-desc{margin:8px 0 0;font-size:14px;line-height:1.8;letter-spacing:.04em}
+.rsv-btn{display:flex;align-items:center;justify-content:center;min-height:56px;margin-top:24px;padding:0 16px;font-family:var(--f-sans);font-size:14px;letter-spacing:.08em;text-decoration:none;background:var(--fg);color:var(--bg);border:1px solid var(--fg);transition:background .3s,color .3s}
+.rsv-btn:hover{background:var(--bg);color:var(--fg)}
+.rsv-btn.line{background:transparent;color:var(--fg)}
+.rsv-btn.line:hover{background:var(--fg);color:var(--bg)}
+.rsv-num{font-family:var(--f-display);font-size:20px;letter-spacing:.06em}
+.rsv-note{margin:12px 0 0;font-size:12px;line-height:1.6;color:#777}
+.rsv-sec{margin-top:80px}
+.rsv-h{margin:0 0 24px;font-family:var(--f-display);font-weight:400;font-size:22px;letter-spacing:.12em;line-height:1.3;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.rsv-h small{font-family:var(--f-serif);font-size:13px;letter-spacing:.12em;color:var(--muted)}
+.rsv-steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.rsv-steps li{display:grid;grid-template-columns:40px 1fr;column-gap:8px;align-items:baseline;padding:24px 0;border-bottom:1px solid var(--rule)}
+.rsv-steps .n{grid-row:span 2;font-family:var(--f-display);font-size:20px;line-height:1;color:#999}
+.rsv-steps b{font-weight:500;font-size:15px;letter-spacing:.06em;line-height:1.6}
+.rsv-steps .t{grid-column:2;margin-top:8px;font-size:14px;line-height:1.8}
+.rsv-change{margin:32px 0 0;padding:16px 24px;background:var(--bg-alt);font-size:13px;line-height:1.8}
+.rsv-dl{display:grid;grid-template-columns:72px 1fr;margin:0;border-top:1px solid var(--rule)}
+.rsv-dl dt,.rsv-dl dd{margin:0;padding:16px 0;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.7}
 .rsv-dl dt{color:var(--muted)}
 .rsv-dl dd a{text-decoration:none}
-.rsv-dl .tbd{color:var(--muted)}
-@media (max-width:480px){.rsv-dl{grid-template-columns:6.5em 1fr}}
-.rsv-act{margin-top:24px}
-.rsv-change{margin:clamp(40px,5vw,56px) 0 0;padding:18px 22px;background:var(--bg-alt);font-size:14px}
-.rsv-change a{text-decoration:none;white-space:nowrap}
-@media (hover:hover) and (pointer:fine){.rsv-call{display:none}}
-.rsv-other{margin:clamp(56px,7vw,88px) 0 0;padding-top:24px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+.rsv-map{min-height:48px}
+.rsv-other{margin:48px 0 0;padding-top:24px;border-top:1px solid var(--rule);font-size:12px;line-height:1.8;color:var(--muted)}
+@media (min-width:760px){
+  .rsv-head{padding-block:calc(env(safe-area-inset-top,0px) + 152px) 48px}
+  .rsv-ways{grid-template-columns:1fr 1fr;gap:32px}
+  .rsv-card{padding:40px}
+  .rsv-num{font-size:22px}
+  .rsv-sec{margin-top:120px}
+  .rsv-h{margin-bottom:40px;font-size:28px}
+  .rsv-h small{font-size:14px}
+  .rsv-steps{display:grid;grid-template-columns:repeat(3,1fr);column-gap:32px;border-top:0}
+  .rsv-steps li{grid-template-columns:1fr;border-bottom:0;border-top:1px solid var(--fg);padding:32px 0 0;align-content:start}
+  .rsv-steps .n{grid-row:auto;margin-bottom:16px}
+  .rsv-steps .t{grid-column:1;font-size:15px;line-height:1.9}
+  .rsv-change{margin-top:48px}
+  .rsv-dl{grid-template-columns:160px 1fr}
+  .rsv-dl dt,.rsv-dl dd{padding:20px 0}
+  .rsv-map{display:inline-flex;width:240px}
+  .rsv{padding-bottom:120px}
+}
+.rsv-steps .t a{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -501,50 +522,44 @@ body{margin:0}
   </div>
 </nav>
 <main>
-  <div class="mhead"><div class="wrap">
+  <div class="mhead rsv-head"><div class="wrap">
+    <p class="draft-band">デザイン案 v17（大阪店版）｜写真・価格は仮</p>
     <p class="crumb"><a href="./">TOP</a> ／ RESERVE</p>
     <h1>RESERVE</h1><span class="sub">ご予約｜Lieu plie 大阪店（四ツ橋）</span>
-    <p>WEB予約は24時間受け付けています。お電話は営業時間内（10:00〜20:00）にどうぞ。</p>
   </div></div>
   <div class="wrap rsv">
     <div class="rsv-ways">
-      <section class="rsv-card rv" aria-labelledby="rWeb">
-        <p class="rsv-en">WEB</p>
+      <section class="rsv-card" aria-labelledby="rWeb">
         <h2 id="rWeb">WEB予約<small>24時間受付</small></h2>
-        <p>空き状況を見ながら、メニューと日時を選べます。</p>
-        <a class="btn" href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener">WEB予約へ進む</a>
+        <p class="rsv-desc">空き状況を見ながら日時を選べます。</p>
+        <a class="rsv-btn" href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener">WEB予約へ</a>
         <p class="rsv-note">外部の予約サイトが開きます。</p>
       </section>
-      <section class="rsv-card rv" aria-labelledby="rTel">
-        <p class="rsv-en">TEL</p>
+      <section class="rsv-card" aria-labelledby="rTel">
         <h2 id="rTel">お電話<small>10:00〜20:00</small></h2>
-        <p class="rsv-tel"><a href="tel:0643904666">06-4390-4666</a></p>
-        <a class="btn line rsv-call" href="tel:0643904666">電話をかける</a>
-        <p class="rsv-note">定休日：なし</p>
+        <p class="rsv-desc">お電話でもご予約いただけます。</p>
+        <a class="rsv-btn line rsv-num" href="tel:0643904666" aria-label="電話をかける 06-4390-4666">06-4390-4666</a>
       </section>
     </div>
 
-    <section class="rsv-sec rv" aria-labelledby="rFirst">
+    <section class="rsv-sec" aria-labelledby="rFirst">
       <h2 class="rsv-h" id="rFirst">FIRST VISIT<small>はじめての方へ</small></h2>
       <ol class="rsv-steps">
         <li><span class="n">01</span><b>メニューを選ぶ</b><span class="t">はじめての方向けに、骨格診断つきのメニューをご用意しています。料金は<a href="menu.html">メニュー・料金</a>をご覧ください。</span></li>
         <li><span class="n">02</span><b>日時を選んで予約</b><span class="t">WEB予約、またはお電話で承ります。</span></li>
         <li><span class="n">03</span><b>ご来店・カウンセリング</b><span class="t">なりたい印象や普段のメイク、お悩みを伺ってから施術します。</span></li>
       </ol>
+      <p class="rsv-change">ご予約の変更・キャンセルは、お早めにお電話でご連絡ください。</p>
     </section>
 
-    <p class="rsv-change rv">ご予約の変更・キャンセルは、お早めにお電話（<a href="tel:0643904666">06-4390-4666</a>）でご連絡ください。</p>
-
-    <section class="rsv-sec rv" aria-labelledby="rAcc">
+    <section class="rsv-sec" aria-labelledby="rAcc">
       <h2 class="rsv-h" id="rAcc">ACCESS<small>店舗情報</small></h2>
       <dl class="rsv-dl">
-        <dt>店舗</dt><dd>Lieu plie 大阪店</dd>
-        <dt>住所</dt><dd>〒550-0013 大阪府大阪市西区新町1-7-5<br>四ツ橋GTCビルディング 8階</dd>
-        <dt>営業時間</dt><dd>10:00〜20:00</dd>
-        <dt>定休日</dt><dd>なし</dd>
+        <dt>住所</dt><dd>〒550-0013<br>大阪市西区新町1-7-5<br>四ツ橋GTCビルディング 8階</dd>
+        <dt>営業時間</dt><dd>10:00〜20:00（定休日なし）</dd>
         <dt>電話</dt><dd><a href="tel:0643904666">06-4390-4666</a></dd>
       </dl>
-      <div class="rsv-act"><a class="btn line" href="https://share.google/sJAJXinF7APmon2xV" target="_blank" rel="noopener">Google マップで見る</a></div>
+      <a class="rsv-btn line rsv-map" href="https://share.google/sJAJXinF7APmon2xV" target="_blank" rel="noopener">Googleマップで見る</a>
     </section>
 
     <p class="rsv-other">このページは大阪店のご予約専用です。沖縄店「Lieu plie io」の公式サイトは準備中です。最新情報は <a href="https://www.instagram.com/lieuplie_io/" target="_blank" rel="noopener">Instagram @lieuplie_io</a> でお知らせしています。</p>
@@ -567,7 +582,6 @@ body{margin:0}
   </div>
 </footer>
 <nav class="rbar" id="rbar" aria-label="ご予約（大阪店）"><a class="tel" href="tel:0643904666"><span><small>10:00–20:00</small>電話で予約</span></a><a href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener"><span><small>24時間受付</small>WEB予約</span></a></nav>
-<p class="draft">デザイン案 v17（大阪店版）｜写真・価格は仮</p>
 <script>
 document.documentElement.classList.add('js');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;

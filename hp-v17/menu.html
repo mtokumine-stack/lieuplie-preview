@@ -427,6 +427,11 @@ body{margin:0}
 .nav-res .btn.line:hover{background:var(--fg);color:var(--bg)}
 .nav-res .sub{font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;justify-self:start;padding:2px 0}
 @media (max-width:759px){.rbar{grid-template-columns:4fr 6fr}.rbar a.tel{background:var(--bg);color:var(--fg)}.rbar a small{font-family:var(--f-sans);letter-spacing:.08em}}
+
+/* v17.1: ヘッダーは不透明の白（下の文字が透けてシミに見えるため） */
+.hd.scrolled{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 #ececec}
+/* 確認用の札は固定せず、ページ最上部の小さな帯に */
+.mhead .draft-band{margin:0 0 16px;max-width:none;font-size:11px;letter-spacing:.06em;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -466,6 +471,7 @@ body{margin:0}
 </nav>
 <main>
   <div class="mhead"><div class="wrap">
+    <p class="draft-band">デザイン案 v17（大阪店版）｜写真・価格は仮</p>
     <p class="crumb"><a href="./">TOP</a> ／ MENU</p>
     <h1>MENU</h1><span class="sub">メニュー・料金</span>
     <p>すべて税込です。現在はホットペッパービューティー掲載のクーポン価格を仮で入れています。「確認中」のメニューは料金を確認次第掲載します。</p>
@@ -527,7 +533,6 @@ body{margin:0}
   </div>
 </footer>
 <nav class="rbar" id="rbar" aria-label="ご予約（大阪店）"><a class="tel" href="tel:0643904666"><span><small>10:00–20:00</small>電話で予約</span></a><a href="https://sam013.salonanswer.com/sas/reserve/lieuplie/" target="_blank" rel="noopener"><span><small>24時間受付</small>WEB予約</span></a></nav>
-<p class="draft">デザイン案 v17（大阪店版）｜写真・価格は仮</p>
 <script>
 document.documentElement.classList.add('js');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
