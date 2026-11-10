@@ -499,6 +499,8 @@ body:has(.nav.open) .rbar{visibility:hidden}/* 透ける面の下に予約バー
 @media (max-width:759px){/* スマホ：右半分のメニューの中で中央揃え（2026/11/10） */
 .nav-panel{padding-left:20px;padding-right:max(20px, env(safe-area-inset-right,0px));text-align:center}
 .nav ul{justify-items:center}
+.nav li a{font-size:14px;letter-spacing:.2em}/* 参考：ourhabitas.com のメニューくらいの大きさ */
+.nav li a::before{left:-16px;border-left-width:6px;border-top-width:4px;border-bottom-width:4px}
 .nav-res,.nav-shop,.nav .nav-follow{justify-items:center;width:100%}
 .nav-res .btn,.nav-shop .btn{width:100%}
 .nav-res .sub,.nav-shop .sub{justify-self:center;word-break:keep-all}
