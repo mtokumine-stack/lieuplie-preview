@@ -490,7 +490,30 @@ br.sp{display:none}
 .hd.scrolled{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 0 #ececec}
 @media (max-width:759px){.rbar{grid-template-columns:4fr 6fr}.rbar a.tel{background:var(--bg);color:var(--fg)}.rbar a small{font-family:var(--f-sans);letter-spacing:.08em}}
 @media (max-width:759px){.flow{overscroll-behavior-x:contain}.js .flow .step.rv.pre{opacity:1}.flow .step.rv.in{animation:none}}
-</style></head><body>
+</style><style>
+/* メニュー：少し透ける面（ourhabitas.com を参考）＋カーソル・選択中の項目に矢印（2026/11/10） */
+.nav-panel{background:rgba(116,106,96,.9);color:#fff}
+.nav-scrim{background:rgba(30,28,28,.18)}
+.nav-close{color:#fff}
+.nav li a{position:relative;color:rgba(255,255,255,.8);transition:color .3s}
+.nav li a:hover{opacity:1}
+.nav li a::before{content:"";position:absolute;left:-20px;top:50%;border-left:8px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:0;transform:translate(-6px,-50%);transition:opacity .25s,transform .25s;pointer-events:none}
+.nav li a:hover,.nav li a:focus-visible,.nav li a[aria-current]{color:#fff}
+.nav li a:hover::before,.nav li a:focus-visible::before,.nav li a[aria-current]::before{opacity:1;transform:translate(0,-50%)}
+.nav li a:focus-visible{outline:none}
+@media (hover:none){.nav li a:active::before{opacity:1;transform:translate(0,-50%)}}
+@media (min-width:760px){.nav li a::before{left:-26px;border-left-width:10px;border-top-width:6px;border-bottom-width:6px}}
+.nav-res p,.nav-shop p,.nav .nav-follow p{color:rgba(255,255,255,.7)}
+.nav .btn{background:#fff;color:#323232;border-color:#fff}
+.nav .btn:hover{background:transparent;color:#fff}
+.nav .btn.line,.nav-shop .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.85)}
+.nav .btn.line:hover,.nav-shop .btn:hover{background:#fff;color:#323232}
+.nav-res .sub,.nav-shop .sub{color:rgba(255,255,255,.82)}
+.nav .nav-follow a{color:#fff}
+@media (prefers-reduced-motion:reduce){.nav li a::before{transition:none}}
+body:has(.nav.open) .rbar{visibility:hidden}/* 透ける面の下に予約バーが重なって見えないように */
+</style>
+</head><body>
 
 <header class="hd dark">
   <div class="wrap">
@@ -854,5 +877,14 @@ if(!reduce && 'IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'-10% 0px -10% 0px'});
   document.querySelectorAll('.rv,.rvi,.rvm').forEach(el=>{const r=el.getBoundingClientRect();if(r.top>innerHeight*.9){el.classList.add('pre');io.observe(el)}});
 }
+</script>
+<script>
+/* メニューを開いたとき、いま見ている場所の項目に矢印（aria-current） */
+(()=>{const b=document.getElementById('menuOpen'),n=document.getElementById('nav');if(!b||!n)return;
+b.addEventListener('click',()=>{const links=[...n.querySelectorAll('ul a')];links.forEach(a=>a.removeAttribute('aria-current'));
+ const page=location.pathname.split('/').pop()||'index.html';let key=null;
+ if(page!=='index.html'){key=page}else{let cur=null;document.querySelectorAll('main section[id]').forEach(s=>{if(s.getBoundingClientRect().top<=innerHeight*.4)cur=s.id});key=cur==='menu'?'menu.html':cur?'#'+cur:null}
+ const hit=key&&links.find(a=>{const h=a.getAttribute('href');return h===key||h==='./'+key});if(hit)hit.setAttribute('aria-current',page==='index.html'?'location':'page')});
+})();
 </script>
 </body></html>
