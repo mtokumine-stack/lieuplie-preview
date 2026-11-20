@@ -1670,7 +1670,22 @@ dd.total .yen{font-size:22px!important}
  .bene-c>svg{width:24px;height:24px}
  .bene-ar{display:none}
  .bene-d{font-size:11px;line-height:1.6}
+ /* v61.7 スマホのブランド一覧は「＋ ALL BRANDS」を押したら開く（トップを短く）。ナビの BRANDS から来たときは開いた状態。PC・タブレットは一覧をそのまま出す */
+ .br-acts{margin:0 0 20px}
+ .brands:not(.open){display:none}
+ /* v61.7 トップの会員様特典をブランドの2列と同じ見た目に：角丸の箱をやめて罫線の2列、左寄せ・上ぞろえ、高さは中身に合わせる。アイコンは見出しの左に小さく、説明は下に全幅 */
+ .bene.bene-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:0;background:none;border-top:1px solid var(--rule)}
+ .bene.bene-top>.bene-c{display:grid;grid-template-columns:auto 1fr;column-gap:7px;row-gap:3px;align-items:center;align-content:start;justify-items:start;text-align:left;min-height:60px;padding:12px;border:0;border-bottom:1px solid var(--rule);border-radius:0;background:transparent}
+ .bene.bene-top>.bene-c:nth-child(odd){border-right:1px solid var(--rule)}
+ .bene.bene-top .bene-t{display:contents}
+ .bene.bene-top>.bene-c>svg{grid-column:1;grid-row:1;width:18px;height:18px;margin:0}
+ .bene.bene-top .bene-h{grid-column:2;grid-row:1;font-size:14px;font-weight:400;letter-spacing:.08em;line-height:1.35}
+ .bene.bene-top .bene-d,.bene.bene-top .bene-soon,.bene.bene-top .bene-links{grid-column:1/-1}
+ .bene.bene-top .bene-d{font-size:11px;line-height:1.5;letter-spacing:.02em;color:var(--gold)}
+ .bene.bene-top .bene-soon{margin-top:0;font-size:10.5px;line-height:1.5}
+ .bene.bene-top .bene-ar{display:none}
 }
+@media (min-width:760px){.br-acts{display:none}}
 .ny-res.solo .grid{grid-template-columns:minmax(0,300px);justify-content:center}
 .ny-next{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 24px;margin:28px 0 0;font-size:13px}
 .ny-next a{color:var(--fg);text-underline-offset:4px}
@@ -1873,7 +1888,7 @@ const pname=p=>p.name.replace(/^(oméme|BIOteA|T3 BROW|T3|UTOWA|LABO|LATICK|HAAB
 const S={gift:null,cs:'g1',logged:false,cart:[],fav:new Set(),filter:{brand:'ALL',cat:'ALL',q:''},sort:'pos',sheet:false,pay:'card',recv:'ship',annOff:false,pick:0,
   subs:[{id:'s1',pid:'om-g2',cycle:4,count:2,next:'2026/12/15',status:'active'}],
   orders:[{no:'LP-26100142',date:'2026/10/14',items:'定期お届け 2回目',total:0,status:'お届け済み'},{no:'LP-26081107',date:'2026/08/14',items:'定期お届け 1回目 ほか1点',total:0,status:'お届け済み'}]};
-const BUILD='20261120-2154',LKEY='lp_member_'+BUILD;
+const BUILD='20261120-2230',LKEY='lp_member_'+BUILD;
 try{S.logged=sessionStorage.getItem(LKEY)==='1'}catch(e){}
 S.orders[0].total=S.subs[0].pid?subPrice(byId(S.subs[0].pid)):0;S.orders[1].total=S.orders[0].total+(PRODUCTS[1]?.price||0);
 
@@ -2030,13 +2045,14 @@ V.top=()=>{
    <div id="pickWrap"></div>
   </div></section>
   <section class="sec" id="brands" style="padding-top:0"><div class="wrap"><div class="h2"><span class="en">BRANDS</span><span class="ja">取り扱いブランド</span></div>
-   <div class="brands">${BRANDINFO.map(b=>{const n=PRODUCTS.filter(p=>p.brand===b.k).length;return `<button type="button" class="brand-c" data-gob="${b.k}" aria-label="${b.name}の商品を見る（${n}件）"><span class="bc-t"><b>${b.name}</b><span class="bc-sub">${b.sub}</span>${b.short?`<p class="bc-short">${b.short}</p>`:''}</span><span class="bc-go"><small class="bc-n">${n}アイテム</small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>`}).join('')}</div></div></section>
+   <div class="catacts br-acts"><button type="button" class="allbtn br-tg" id="brTg" aria-expanded="${S.brandsOpen?'true':'false'}" aria-controls="brandsList">${S.brandsOpen?'－ CLOSE':'＋ ALL BRANDS'}</button></div>
+   <div class="brands${S.brandsOpen?' open':''}" id="brandsList">${BRANDINFO.map(b=>{const n=PRODUCTS.filter(p=>p.brand===b.k).length;return `<button type="button" class="brand-c" data-gob="${b.k}" aria-label="${b.name}の商品を見る（${n}件）"><span class="bc-t"><b>${b.name}</b><span class="bc-sub">${b.sub}</span>${b.short?`<p class="bc-short">${b.short}</p>`:''}</span><span class="bc-go"><small class="bc-n">${n}アイテム</small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>`}).join('')}</div></div></section>
   <section class="wrap" style="margin-bottom:clamp(56px,8vw,104px)"><div class="quizban"><div><h3>あなたに合うコーティング美容液は？</h3><p>3つの質問に答えるだけ。omémeのメーカー診断チャートをもとに、D1・G2・M3・BKからご提案します。</p></div><button class="btn gold" id="quizBtn">診断をはじめる</button></div></section>
   ${news.length?`<section class="sec" style="padding-top:0"><div class="wrap"><div class="h2"><span class="en">NEW ITEMS</span><span class="ja">新着アイテム</span></div><div class="grid sp-rail">${news.map(p=>card(p)).join('')}</div></div></section>`:''}
   <section class="wrap" style="margin-bottom:clamp(56px,8vw,104px)"><a class="subban" href="#subscription"><div class="subban-img"><img src="${IMG.sub}" alt="" style="object-position:50% 60%"></div><div class="subban-body"><span class="script">Regular delivery</span><h3>定期お届けサービス</h3><p>毎回10%OFF・送料無料。使い切りの目安に合わせたサイクルでお届け。<br>変更やスキップはマイページからいつでも。</p><span class="btn line" style="justify-self:start">詳しく見る</span></div></a></section>
   <section class="sec alt"><div class="wrap"><div class="h2"><span class="en">RANKING</span><span class="ja">会員様に人気のアイテム</span></div><div class="rail">${rank.map((p,i)=>card(p,i+1)).join('')}</div></div></section>
   <section class="sec"><div class="wrap"><div class="h2"><span class="en">MEMBERS BENEFIT</span><span class="ja">会員様特典（仮）</span></div>
-   <div class="bene">${beneCard('ship',icon.truck,'送料無料',`${yen(FREE_OVER)}円以上のご購入・<br>定期便は毎回`)}${beneCard('store',icon.shop,'店頭受取','大阪店・沖縄店で<br>受け取り・お支払い')}${beneLine()}${beneCard('sample',icon.gift,'サンプル','ご購入の方に<br>お好きなサンプルを1点')}</div>
+   <div class="bene bene-top">${beneCard('ship',icon.truck,'送料無料',`${yen(FREE_OVER)}円以上のご購入・<br>定期便は毎回`)}${beneCard('store',icon.shop,'店頭受取','大阪店・沖縄店で<br>受け取り・お支払い')}${beneLine()}${beneCard('sample',icon.gift,'サンプル','ご購入の方に<br>お好きなサンプルを1点')}</div>
   </div></section></main>${footer()}`;
 };
 
@@ -3096,7 +3112,7 @@ function bind(r){
   {const gn=$('.gnav');if(gn){gn.querySelectorAll('.mm a').forEach(a=>a.addEventListener('click',()=>{S.mmOff=true;gn.classList.add('mm-off');document.activeElement?.blur?.()}));
     const mmOn=()=>{S.mmOff=false;gn.classList.remove('mm-off')};gn.addEventListener('mouseleave',mmOn);gn.querySelectorAll(':scope>a').forEach(a=>a.addEventListener('mouseenter',mmOn));
     gn.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const m=e.target.closest('.mm');if(!m&&!e.target.matches('.gnav>a'))return;gn.classList.add('mm-off');S.mmOff=true;(m?m.previousElementSibling:e.target).focus();setTimeout(()=>{gn.addEventListener('focusout',function f(ev){if(!gn.contains(ev.relatedTarget)){gn.classList.remove('mm-off');S.mmOff=false;gn.removeEventListener('focusout',f)}})},0)});}}
-  $$('[data-jumptop]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(location.hash==='#top'||location.hash===''){document.getElementById(a.dataset.jumptop)?.scrollIntoView({behavior:'smooth'})}else{S.jumpTo=a.dataset.jumptop;go('top')}}));
+  $$('[data-jumptop]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(a.dataset.jumptop==='brands'&&!S.brandsOpen){S.brandsOpen=true;const l=$('#brandsList'),t=$('#brTg');if(l){l.classList.add('open');if(t){t.setAttribute('aria-expanded','true');t.textContent='－ CLOSE'}}}if(location.hash==='#top'||location.hash===''){document.getElementById(a.dataset.jumptop)?.scrollIntoView({behavior:'smooth'})}else{S.jumpTo=a.dataset.jumptop;go('top')}}));
   if(S.jumpTo){const t=S.jumpTo;S.jumpTo=null;setTimeout(()=>document.getElementById(t)?.scrollIntoView(),50)}
   const fq=$('#fq');if(fq){const apply=()=>{const q=fq.value.trim().toLowerCase();S.filter.q=q;let n=0;$$('#fgrid .pc').forEach(c=>{const ok=!q||c.dataset.s.includes(q);(c.closest('.pcw')||c).style.display=ok?'':'none';if(ok)n++});const fc=$('#fcount');fc.textContent='';fc.append((q?'':fc.dataset.pre));const sp=document.createElement('span');sp.className='pg';sp.textContent=n+'件';fc.append(sp,'の商品'+(q?'（「'+fq.value.trim()+'」で検索）':''));$('#fnone').hidden=n>0};fq.addEventListener('input',apply);if(fq.value)apply();$('#fqClear')?.addEventListener('click',()=>{fq.value='';apply();fq.focus()})}
   {const hc=$('.hero-copy.hx-wait');if(hc){window.__hxDone=1;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;const go=()=>requestAnimationFrame(()=>hc.classList.add('hx-in'));if(rm)go();else Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(r=>setTimeout(r,900))]).then(go)}}
@@ -3122,7 +3138,7 @@ function bind(r){
   const lo=e=>{e.preventDefault();S.logged=false;try{sessionStorage.removeItem(LKEY)}catch(_){}S.cart=[];toast('ログアウトしました');if(location.hash==='#top')render();else go('top')};
   $('#logout')?.addEventListener('click',lo);$('#logout2')?.addEventListener('click',lo);
   $$('[data-gob]').forEach(b=>b.addEventListener('click',()=>{S.filter={brand:b.dataset.gob,cat:'ALL',q:''};if(location.hash==='#products')render();else go('products')}));
-  $('#quizBtn')?.addEventListener('click',quiz);
+  $('#brTg')?.addEventListener('click',e=>{S.brandsOpen=!S.brandsOpen;const t=e.currentTarget,l=$('#brandsList');l?.classList.toggle('open',S.brandsOpen);t.setAttribute('aria-expanded',S.brandsOpen?'true':'false');t.textContent=S.brandsOpen?'－ CLOSE':'＋ ALL BRANDS'});   $('#quizBtn')?.addEventListener('click',quiz);
   $$('[data-goc]').forEach(b=>b.addEventListener('click',()=>{S.filter={brand:'ALL',cat:b.dataset.goc,q:''};go('products')}));
   /* v56 悩みから探す：結果の種類の絞り込み（画面は動かさない）と、色・香りが合う商品を開くときはその色・香りを選んだ状態に */
   if(/^nayami/.test(r)){
