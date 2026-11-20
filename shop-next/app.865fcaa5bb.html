@@ -1657,11 +1657,13 @@ dd.total .yen{font-size:22px!important}
  /* v61.5 おすすめのラベル（BEST SELLER など）は写真の上に重ねず、ブランド名の上に置く（写真の商品と文字が重なっていた） */
  .pk-tag{align-self:flex-start;display:inline-block;border:1px solid var(--rule2);font-family:var(--f-display);font-size:10px;line-height:1.4;padding:1px 6px;letter-spacing:.08em;color:var(--fg)}
  #pickWrap .twotone{margin-top:22px}
- .brands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-top:1px solid var(--rule)}
- .brand-c{min-height:72px;padding:12px 10px;justify-content:center}
+ /* v61.6 ブランドの2列：文字の左端と上端をそろえる（中央寄せで名前ごとに左端がずれていた）。行の高さは中身に合わせる（全行がいちばん高い行＝SPICARE にそろって枠が大きく、スクロールが長かった） */
+ .brands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:0;border-top:1px solid var(--rule)}
+ .brand-c{min-height:60px;padding:12px 12px;justify-content:flex-start;align-items:flex-start;text-align:left}
  .brand-c:nth-child(odd){border-right:1px solid var(--rule)}
- .brand-c b{font-size:15px;letter-spacing:.1em}
- .brand-c .bc-sub{font-size:11px}
+ .brand-c .bc-t{gap:2px;justify-items:start;text-align:left}
+ .brand-c .bc-t b{font-size:15px!important;letter-spacing:.1em;line-height:1.35}
+ .brand-c .bc-sub{font-size:11px;line-height:1.5;letter-spacing:.02em}
  .brand-c .bc-go{display:none}
  .bene{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
  .bene-c{grid-template-columns:1fr;justify-items:center;text-align:center;gap:6px;min-height:0;padding:14px 10px}
@@ -1871,7 +1873,7 @@ const pname=p=>p.name.replace(/^(oméme|BIOteA|T3 BROW|T3|UTOWA|LABO|LATICK|HAAB
 const S={gift:null,cs:'g1',logged:false,cart:[],fav:new Set(),filter:{brand:'ALL',cat:'ALL',q:''},sort:'pos',sheet:false,pay:'card',recv:'ship',annOff:false,pick:0,
   subs:[{id:'s1',pid:'om-g2',cycle:4,count:2,next:'2026/12/15',status:'active'}],
   orders:[{no:'LP-26100142',date:'2026/10/14',items:'定期お届け 2回目',total:0,status:'お届け済み'},{no:'LP-26081107',date:'2026/08/14',items:'定期お届け 1回目 ほか1点',total:0,status:'お届け済み'}]};
-const BUILD='20261119-2356',LKEY='lp_member_'+BUILD;
+const BUILD='20261120-2154',LKEY='lp_member_'+BUILD;
 try{S.logged=sessionStorage.getItem(LKEY)==='1'}catch(e){}
 S.orders[0].total=S.subs[0].pid?subPrice(byId(S.subs[0].pid)):0;S.orders[1].total=S.orders[0].total+(PRODUCTS[1]?.price||0);
 
